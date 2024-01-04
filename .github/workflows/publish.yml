@@ -1,0 +1,51 @@
+# GitHub Actions workflow to deploy AmbrOS to GitHub Pages
+name: Deploy AmbrOS to GitHub Pages
+
+# Set up what can trigger the github actions workflow
+on:
+  workflow_dispatch: # Only Explicit Triggers
+
+# Setting up permissions 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Setting up concurrency settings
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+# Setup GitHub workflow jobs
+jobs:
+  # Build with Quartz
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout content from GitHub
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Fetch all history for git info
+      - name: Setup node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.14
+      - name: Install Dependencies
+        run: npm ci
+      - name: Build Quartz
+        run: npx quartz build --directory content --output dist 
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: dist
+ # Deploy to GitHub Pages
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
