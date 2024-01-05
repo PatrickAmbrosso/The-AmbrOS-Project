@@ -40,7 +40,7 @@ export const defaultContentPageLayout: PageLayout = {
           if (node.file) {
             node.displayName = "📄 " + node.displayName
           } else {
-            node.displayName = "📁 " + node.displayName
+            node.displayName = node.displayName
           }
         }
       },
