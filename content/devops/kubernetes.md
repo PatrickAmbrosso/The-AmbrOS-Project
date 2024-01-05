@@ -14,8 +14,6 @@ Kubernetes operates based on a master-node architecture, where the *master node*
 
 ## Getting to know Kubernetes
 
-  
-
 ### History and Current State of Kubernetes
 
 Kubernetes originated from Google's internal container orchestration system, **Borg**. Google open-sourced the Kubernetes project in 2014, allowing it to quickly gain traction as a leading container orchestration platform. The [Cloud Native Computing Foundation (CNCF)](https://www.cncf.io) took over its governance in 2015, fostering a vibrant and collaborative ecosystem around the project.
