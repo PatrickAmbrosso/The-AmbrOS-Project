@@ -1,3 +1,57 @@
 @use "./base.scss";
 
 // put your custom CSS here!
+
+// Color Definitions
+:root[saved-theme=light] {
+    --green: #16a085;
+    --yellow: #f29c50;
+    --pink: #f68aa2;
+    --purple: #B799FF;
+} 
+
+:root[saved-theme=dark] {
+    --green: #16a085;
+    --yellow: #f9b44e;
+    --pink: #e88bb3;
+    --purple: #B799FF;
+} 
+
+
+:root[saved-theme=light] {
+    h2 {
+        color: var(--green);
+    }
+
+    h3 {
+        color: var(--yellow);
+    }
+
+    strong {
+        color: var(--purple);   
+    }
+
+    em {
+        color: var(--pink);
+        font-weight: 600;
+    }
+} 
+
+:root[saved-theme=dark] {
+    h2 {
+        color: var(--green);
+    }
+
+    h3 {
+        color: var(--yellow);
+    }
+
+    strong {
+        color: var(--purple);   
+    }
+
+    em {
+        color: var(--pink);
+        font-weight: 600;
+    }
+} 
