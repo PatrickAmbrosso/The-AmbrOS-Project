@@ -30,5 +30,3 @@ I made this DOCUSITE with [serendipity](serendipity.md) in mind. So, not all pag
 	Yes, my organization structure is based loosely on the famous MOC structure popularized by [Nick Milo](https://twitter.com/nickmilo) with his [Linking Your Thinking](https://www.linkingyourthinking.com/) approach. But I took the liberty to allow my system to organically grow and evolve as I take more notes and understand new things. That being said, I have sat down and radically changed my organization structure countless times, therefore the paradigm might have changed the next time you visit this notes collection.
 3. **What is your view on Links vs Tags?**
 	I use tags to aid in loose interconnection and links to assist in intentional linking. If you do not see the tags, it is likely hidden in the metadata section. If you do see tags, either something is broke and I would eventually fix it or I might be trying out some new stuff.
-
----
