@@ -2,7 +2,7 @@
 
 .search {
   min-width: fit-content;
-  max-width: 100%; //15rem;
+  max-width: 100%;
   flex-grow: 0.3;
 
   & > #search-icon {
@@ -75,7 +75,7 @@
 
       & > input {
         box-sizing: border-box;
-        padding: 0.5em 1em;
+        padding: 1em 1em;
         font-family: var(--bodyFont);
         color: var(--dark);
         font-size: 1.1em;
@@ -126,8 +126,9 @@
             border-bottom: 1px solid var(--lightgray);
           }
 
-          & > h3 {
+          & > h1 {
             margin: 0;
+            font-size: larger;
           }
 
           & > ul > li {

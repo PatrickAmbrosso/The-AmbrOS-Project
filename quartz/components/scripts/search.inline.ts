@@ -222,7 +222,7 @@ document.addEventListener("nav", async (e: unknown) => {
     const button = document.createElement("button")
     button.classList.add("result-card")
     button.id = slug
-    button.innerHTML = `<h3>${title}</h3>${htmlTags}<p>${content}</p>`
+    button.innerHTML = `<h1>${title}</h1>${htmlTags}<p>${content}</p>`
     button.addEventListener("click", () => {
       const targ = resolveRelative(currentSlug, slug)
       window.spaNavigate(new URL(targ, window.location.toString()))
@@ -237,8 +237,8 @@ document.addEventListener("nav", async (e: unknown) => {
     removeAllChildren(results)
     if (finalResults.length === 0) {
       results.innerHTML = `<button class="result-card">
-                    <h3>No results.</h3>
-                    <p>Try another search term?</p>
+                    <h1>🤔 Oops, no results.</h1>
+                    <p>Maybe try another search term?<br/>Eventually you will find it...</p>
                 </button>`
     } else {
       results.append(...finalResults.map(resultToHTML))
