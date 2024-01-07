@@ -3,55 +3,64 @@
 // put your custom CSS here!
 
 // Color Definitions
-:root[saved-theme=light] {
-    --green: #16a085;
-    --yellow: #f29c50;
-    --pink: #f68aa2;
-    --purple: #9b59b6;
-} 
+:root[saved-theme="light"] {
+  --green: #16a085;
+  --yellow: #f29c50;
+  --pink: #f68aa2;
+  --purple: #9b59b6;
+}
 
-:root[saved-theme=dark] {
-    --green: #16a085;
-    --yellow: #f9b44e;
-    --pink: #e88bb3;
-    --purple: #B799FF;
-} 
+:root[saved-theme="dark"] {
+  --green: #16a085;
+  --yellow: #f9b44e;
+  --pink: #e88bb3;
+  --purple: #b799ff;
+}
 
+:root[saved-theme="light"] {
+  h2 {
+    color: var(--green);
+  }
 
-:root[saved-theme=light] {
-    h2 {
-        color: var(--green);
-    }
+  h3 {
+    color: var(--yellow);
+  }
 
-    h3 {
-        color: var(--yellow);
-    }
+  strong {
+    color: var(--purple);
+  }
 
-    strong {
-        color: var(--purple);   
-    }
+  em {
+    color: var(--pink);
+    font-weight: 600;
+  }
 
-    em {
-        color: var(--pink);
-        font-weight: 600;
-    }
-} 
+  hr {
+    height: 0.0625em;
+    margin: 0 auto;
+  }
+}
 
-:root[saved-theme=dark] {
-    h2 {
-        color: var(--green);
-    }
+:root[saved-theme="dark"] {
+  h2 {
+    color: var(--green);
+  }
 
-    h3 {
-        color: var(--yellow);
-    }
+  h3 {
+    color: var(--yellow);
+  }
 
-    strong {
-        color: var(--purple);   
-    }
+  strong {
+    color: var(--purple);
+  }
 
-    em {
-        color: var(--pink);
-        font-weight: 600;
-    }
-} 
+  em {
+    color: var(--pink);
+    font-weight: 600;
+  }
+
+  hr {
+    height: 0.0625em;
+    margin: 0 auto;
+  }
+}

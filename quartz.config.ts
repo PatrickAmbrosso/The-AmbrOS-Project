@@ -14,9 +14,9 @@ const config: QuartzConfig = {
     defaultDateType: "created",
     theme: {
       typography: {
-        header: "Schibsted Grotesk",
-        body: "Source Sans Pro",
-        code: "IBM Plex Mono",
+        header: "Space Grotesk", //"Schibsted Grotesk",
+        body: "Space Grotesk", // "Source Sans Pro",
+        code: "JetBrains Mono", // "IBM Plex Mono",
       },
       colors: {
         lightMode: {
@@ -31,7 +31,7 @@ const config: QuartzConfig = {
         },
         darkMode: {
           light: "#161618",
-          lightgray: "#393639",
+          lightgray: "#353b48",
           gray: "#646464",
           darkgray: "#d4d4d4",
           dark: "#ebebec",

@@ -29,7 +29,7 @@ export default ((userOpts?: Partial<Options>) => {
     const remaining = Math.max(0, pages.length - opts.limit)
     return (
       <div class={`recent-notes ${displayClass ?? ""}`}>
-        <h3>{opts.title}</h3>
+        <h1>{opts.title}</h1>
         <ul class="recent-ul">
           {pages.slice(0, opts.limit).map((page) => {
             const title = page.frontmatter?.title

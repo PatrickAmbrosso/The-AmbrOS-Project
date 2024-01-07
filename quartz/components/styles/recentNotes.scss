@@ -1,16 +1,16 @@
 .recent-notes {
-  & > h3 {
+  & > h1 {
     margin: 0.5rem 0 0 0;
     font-size: 1rem;
   }
 
   & > ul.recent-ul {
     list-style: none;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     padding-left: 0;
 
     & > li {
-      margin: 1rem 0;
+      margin: 0.5rem 0;
       .section > .desc > h3 > a {
         background-color: transparent;
       }
