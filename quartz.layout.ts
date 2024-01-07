@@ -27,14 +27,15 @@ export const defaultContentPageLayout: PageLayout = {
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
     Component.Search(),
+    Component.MobileOnly(Component.Darkmode()),
     Component.DesktopOnly(Component.RecentNotes({
       title: "Recent Writings",
       limit: 3,
     })),
     Component.DesktopOnly(Component.Explorer({
-      title: "Branches",
+      title: "Navigation",
       folderDefaultState: "collapsed",
-      folderClickBehavior: "link",
+      folderClickBehavior: "collapse",
       useSavedState: false,
       mapFn: (node) => {
         // dont change name of root node
@@ -50,7 +51,7 @@ export const defaultContentPageLayout: PageLayout = {
     })),
   ],
   right: [
-    Component.Darkmode(),
+    Component.DesktopOnly(Component.Darkmode()),
     Component.Graph({
       localGraph: {
         // drag: true, // whether to allow panning the view around
