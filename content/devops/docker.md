@@ -3,10 +3,10 @@ title: Docker
 publish: true
 ---
 
-Docker is a containerization platform available on Linux, MacOs and Windows
+Docker is a containerization platform available on Linux, MacOS and Windows.
 
 ```
 
-![[og-image.png]]
+![](https://www.domain.com/og-image.png) image
 
 ```
