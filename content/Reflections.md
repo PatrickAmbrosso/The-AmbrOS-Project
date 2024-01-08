@@ -1,5 +1,5 @@
 ---
-title: 📖 Reflections
+title: Reflections
 description: About my thought process
 tags:
   - MOC
