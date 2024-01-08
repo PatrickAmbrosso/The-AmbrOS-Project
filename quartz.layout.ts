@@ -28,32 +28,34 @@ export const defaultContentPageLayout: PageLayout = {
     Component.MobileOnly(Component.Spacer()),
     Component.Search(),
     Component.MobileOnly(Component.Darkmode()),
-    Component.DesktopOnly(Component.RecentNotes({
-      title: "Recent Writings",
-      limit: 3,
-    })),
     Component.DesktopOnly(Component.Explorer({
       title: "Navigation",
       folderDefaultState: "collapsed",
       folderClickBehavior: "collapse",
       useSavedState: false,
+      filterFn: (node) => {
+        // set containing names of everything you want to include
+        // const include = new Set(["Notes","Learnings"])
+        return !!node.file // && include.has(node.name)
+      },
       mapFn: (node) => {
         // dont change name of root node
         if (node.depth > 0) {
           // set emoji for file/folder
           if (node.file) {
-            node.displayName = "📄 " + node.displayName
+            // node.displayName = "📄 " + node.displayName
+            node.displayName = "📁 " + node.displayName
           } else {
             node.displayName = node.displayName
           }
         }
       },
-      filterFn: (node) => {
-        // set containing names of everything you want to include
-        const include = new Set(["Notes","Learnings"])
-        return include.has(node.name)
-      },
+      order: ['filter','map','sort']
     })),
+    Component.DesktopOnly(Component.RecentNotes({
+      title: "Recent Writings",
+      limit: 5,
+    }))
   ],
   right: [
     Component.DesktopOnly(Component.Darkmode()),
