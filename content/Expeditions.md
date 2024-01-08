@@ -1,5 +1,5 @@
 ---
-title: 🌏 Expeditions
+title: Expeditions
 description: Explore
 tags:
   - MOC

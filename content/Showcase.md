@@ -1,5 +1,5 @@
 ---
-title: 🎉 Showcase
+title: Showcase
 description: All my projects
 tags:
   - MOC
