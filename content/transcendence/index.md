@@ -1,5 +1,0 @@
----
-title: Transcendence
-publish: true
----
-

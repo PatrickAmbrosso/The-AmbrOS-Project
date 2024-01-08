@@ -54,7 +54,7 @@ export const defaultContentPageLayout: PageLayout = {
               Reflections: "📖",
               Expeditions: "🌏",
               Transcendence: "🙏",
-              Showcase: "🌏",
+              Showcase: "🎉",
             }
 
             // check if the node's name is in the dictionary
