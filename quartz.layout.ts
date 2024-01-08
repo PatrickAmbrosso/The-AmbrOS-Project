@@ -33,27 +33,36 @@ export const defaultContentPageLayout: PageLayout = {
       folderDefaultState: "collapsed",
       folderClickBehavior: "collapse",
       useSavedState: false,
-      // filterFn: (node) => {
-      //   // set containing names of everything you want to include
-      //   // const include = new Set(["Notes","Learnings"])
-      //   return !!node.file // && include.has(node.name)
-      // },
       filterFn: (node) => {
         // set containing names of everything you want to include
         // const include = new Set(["learn-some-shit","learnings"])
         return !!node.file //&& include.has(node.name.toLowerCase())
       },
-      mapFn: (node) => {
-        // dont change name of root node
-        if (node.depth > 0) {
-          // set emoji for file/folder
-          if (node.file && node.depth < 2) {
-            node.displayName = "📄 " + node.displayName
-            // node.displayName = "📁 " + node.displayName
-          } else if (node.depth < 2) {
-            node.displayName = node.displayName
-          }
+      sortFn: (a, b) => {
+        const nameOrderMap: Record<string, number> = {
+          "musings": 100,
+          "reflections": 200,
+          "expeditions": 300,
+          "transcendence": 400,
+          "showcase": 500,
         }
+     
+        let orderA = 0
+        let orderB = 0
+     
+        if (a.file && a.file.slug) {
+          orderA = nameOrderMap[a.file.slug] || 0
+        } else if (a.name) {
+          orderA = nameOrderMap[a.name] || 0
+        }
+     
+        if (b.file && b.file.slug) {
+          orderB = nameOrderMap[b.file.slug] || 0
+        } else if (b.name) {
+          orderB = nameOrderMap[b.name] || 0
+        }
+     
+        return orderA - orderB
       },
       order: ['filter','map','sort']
     })),
