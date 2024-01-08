@@ -35,22 +35,16 @@ export const defaultContentPageLayout: PageLayout = {
       useSavedState: false,
       filterFn: (node) => {
         // set containing names of everything you want to include
-        const include = new Set(["_Musings","_Reflections","_Expeditions","_Transcendence","_Showcase"])
+        const include = new Set(["Musings","Reflections","Expeditions","Transcendence","Showcase"])
         return include.has(node.name) // && !!node.file
       },
-      // mapFn: (node) => {
-      //   const include = new Set(["Musings","Reflections","Expeditions","Transcendence","Showcase"])
-      //   if (node.file && include.has(node.name)) {
-      //     node
-      //   }
-      // },
       sortFn: (a, b) => {
         const nameOrderMap: Record<string, number> = {
-          "_Musings": 100,
-          "_Reflections": 200,
-          "_Expeditions": 300,
-          "_Transcendence": 400,
-          "_Showcase": 500,
+          "Musings": 100,
+          "Reflections": 200,
+          "Expeditions": 300,
+          "Transcendence": 400,
+          "Showcase": 500,
         }
      
         let orderA = 0

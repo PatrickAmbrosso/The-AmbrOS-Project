@@ -1,5 +1,0 @@
----
-title: Musings
-publish: true
----
-
