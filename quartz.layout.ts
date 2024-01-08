@@ -48,6 +48,11 @@ export const defaultContentPageLayout: PageLayout = {
           }
         }
       },
+      filterFn: (node) => {
+        // set containing names of everything you want to include
+        const include = new Set(["Notes","Learnings"])
+        return include.has(node.name)
+      },
     })),
   ],
   right: [
