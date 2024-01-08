@@ -40,8 +40,8 @@ export const defaultContentPageLayout: PageLayout = {
       // },
       filterFn: (node) => {
         // set containing names of everything you want to include
-        const include = new Set(["learn-some-shit","learnings"])
-        return include.has(node.name.toLowerCase())
+        // const include = new Set(["learn-some-shit","learnings"])
+        return !!node.file //&& include.has(node.name.toLowerCase())
       },
       mapFn: (node) => {
         // dont change name of root node
