@@ -33,19 +33,24 @@ export const defaultContentPageLayout: PageLayout = {
       folderDefaultState: "collapsed",
       folderClickBehavior: "collapse",
       useSavedState: false,
+      // filterFn: (node) => {
+      //   // set containing names of everything you want to include
+      //   // const include = new Set(["Notes","Learnings"])
+      //   return !!node.file // && include.has(node.name)
+      // },
       filterFn: (node) => {
         // set containing names of everything you want to include
-        // const include = new Set(["Notes","Learnings"])
-        return !!node.file // && include.has(node.name)
+        const include = new Set(["learn-some-shit","learnings"])
+        return include.has(node.name.toLowerCase())
       },
       mapFn: (node) => {
         // dont change name of root node
         if (node.depth > 0) {
           // set emoji for file/folder
-          if (node.file) {
-            // node.displayName = "📄 " + node.displayName
-            node.displayName = "📁 " + node.displayName
-          } else {
+          if (node.file && node.depth < 2) {
+            node.displayName = "📄 " + node.displayName
+            // node.displayName = "📁 " + node.displayName
+          } else if (node.depth < 2) {
             node.displayName = node.displayName
           }
         }
