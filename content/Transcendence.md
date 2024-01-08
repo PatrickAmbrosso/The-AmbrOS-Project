@@ -1,5 +1,5 @@
 ---
-title: 🙏 Transcendence
+title: Transcendence
 description: Transcendental stuff
 tags:
   - MOC
