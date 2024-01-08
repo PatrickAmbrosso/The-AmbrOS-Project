@@ -1,5 +1,5 @@
 ---
-title: ✨ Musings
+title: Musings
 description: Things I come across, consume and comment on
 tags:
   - MOC
