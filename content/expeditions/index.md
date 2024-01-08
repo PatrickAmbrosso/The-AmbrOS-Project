@@ -1,5 +1,5 @@
 ---
-title: Learnings
+title: Expeditions
 publish: true
 ---
 
