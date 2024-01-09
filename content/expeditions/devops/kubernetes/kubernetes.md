@@ -14,22 +14,54 @@ Kubernetes operates based on a master-node architecture, where the *master node*
 > [!INFO]- No more MASTERS - Moving towards a more inclusive language
 > The industry-wide movement toward inclusive language responds to the recognition that certain terms in technology may carry implicit biases. A notable aspect is the shift away from terms like "master" and "slave" to more neutral alternatives, promoting a more welcoming and inclusive environment. This effort, embraced by many organizations and communities, aims to eliminate language that could be exclusionary and contributes to building a diverse and respectful culture within the tech
 
-## Getting to know Kubernetes
+## Comparing BMs, VMs and Containers
 
-### History and Current State
+![](https://patfolio-assets.s3.ap-south-1.amazonaws.com/BMs-VMs-Containers.png)
 
-Kubernetes originated from Google's internal container orchestration system, **Borg**. Google open-sourced the Kubernetes project in 2014, allowing it to quickly gain traction as a leading container orchestration platform. The [Cloud Native Computing Foundation (CNCF)](https://www.cncf.io) took over its governance in 2015, fostering a vibrant and collaborative ecosystem around the project.
+|  | Bare Metal (BMs) | Virtual Machines (VMs) | Containers |
+| ---- | ---- | ---- | ---- |
+| **Isolation** | Runs directly on physical hardware without an additional layer. | Runs on a hypervisor, providing isolation from the physical hardware. | Runs on a shared operating system kernel, providing lightweight isolation. |
+| **Resource Overhead** | Minimal, as there is no virtualization layer. | Moderate to high, as VMs include a full OS and hypervisor overhead. | Low, as containers share the host OS kernel and do not require a full OS. |
+| **Resource Efficiency** | Maximum resource utilization but lacks flexibility. | Moderate resource efficiency due to the hypervisor layer. | Highly efficient use of resources, providing rapid scalability. |
+| **Performance** | Generally provides high performance but lacks flexibility in resource allocation. | Slightly reduced compared to bare metal due to virtualization overhead. | Minimal overhead, resulting in near-native performance. |
+| **Deployment Time** | Longer deployment time due to manual setup and configuration. | Faster deployment compared to bare metal, but slower than containers. | Almost instant deployment due to lightweight nature and minimal setup. |
+| **Isolation** | Complete isolation. | Strong isolation between VMs. | Lightweight isolation, sharing the host OS kernel. |
+| **Scalability** | Limited scalability compared to VMs and containers. | Offers good scalability with the ability to run multiple VMs on a single physical host. | Highly scalable, allowing the deployment of numerous containers on a single host. |
+| **Deployment Speed** | Slow deployment. | Faster deployment than bare metal but slower than containers. | Almost instant deployment. |
+| **Use Case** | Suitable for resource-intensive applications that require direct access to hardware. | Ideal for running multiple applications with different OS requirements on a single host. | Best for microservices architectures, CI/CD pipelines, and lightweight, scalable applications. |
 
-Over the years, Kubernetes has evolved to become the de facto standard for container orchestration in the industry. Its robust features for automating deployment, scaling, and management of containerized applications have made it a cornerstone of modern cloud-native infrastructure. The project has seen regular updates and enhancements, with a strong focus on scalability, stability, and extensibility. Kubernetes has also spurred the development of a rich ecosystem of tools and services, contributing to its widespread adoption across various industries.
+### Containerization v Container Orchestration
 
-In the current state, Kubernetes continues to be a dynamic and influential force in the world of container orchestration. Its community-driven development model ensures ongoing innovation, and its compatibility with diverse environments, including on-premises data centers and multiple cloud providers, solidifies its role as a key enabler of scalable and resilient application architectures. As Kubernetes matures, it remains a critical technology for organizations seeking to deploy and manage containerized workloads at scale.
+| Aspect            | Containerization                                                                                  | Container Orchestration                                                                                             |
+|-------------------|---------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
+| **Definition**        | Packaging, distributing, and executing applications in isolated environments known as containers. | Managing the deployment, scaling, and operation of containers within a larger ecosystem.                            |
+| **Focus**             | Concerned with bundling and running applications in isolated environments.                        | Concerned with automating, scaling, and managing the lifecycle of multiple containers as part of a system.          |
+| **Key Components**    | Containers, Images, Docker (or containerization platform of choice).                              | Orchestration platforms (e.g., Kubernetes, Docker Swarm, Apache Mesos).                                             |
+| **Isolation Level**   | Provides lightweight isolation, sharing the host OS kernel.                                       | Manages the deployment and operation of multiple containers, ensuring they run seamlessly in isolated environments. |
+| **Resource Overhead** | Low, as containers share the host OS kernel and have minimal overhead.                            | Moderate, as orchestration platforms add additional components and services for managing containers.                |
+| **Scalability**       | Scalable, but manual scaling might be required for larger deployments.                            | Highly scalable, with automated scaling based on demand, ensuring efficient resource utilization.                   |
+| **Use Case**          | Ideal for packaging and running applications consistently across different environments.          | Essential for deploying and managing large-scale, distributed applications with multiple interacting components.    |
+| **Examples**          | [Docker](../docker/docker.md), Podman, containerd.                                                                       | Kubernetes, Docker Swarm, Apache Mesos.                                                                             |
 
-### Alternatives to K8s
+### Understanding container orchestration
 
-1. **Docker Swarm** - Docker's native orchestration tool, Swarm, provides a simple and lightweight way to orchestrate Docker containers without the need for Kubernetes.
-2. **Nomad** - Developed by HashiCorp, Nomad is a standalone orchestrator that supports both containers and virtual machines. It is designed for simplicity and flexibility.
-3. **Mesos/Marathon** - Apache Mesos, combined with the Marathon framework, offers a general-purpose orchestration solution for both containers and traditional workloads.
-4. **Amazon ECS (Elastic Container Service)** - ECS is Amazon's proprietary container orchestration service that manages Docker containers. While AWS offers Amazon EKS with Kubernetes, ECS itself is a separate solution.
+- **Container Orchestration** is the automated process of *managing*, *deploying*, *scaling*, and *operating* containerized applications. It involves coordinating the deployment and lifecycle management of multiple containers to ensure they work together seamlessly to deliver a *complex*, *distributed application*.
+- Some of the key components of a container orchestration platform/engine are Orchestrators
+	1. **Orchestrators** - Tools or platforms that automate the management of containers.
+	2. **Cluster** - A collection of machines (nodes) that collectively run containerized applications.
+	3. **Container Runtime** - The underlying software responsible for running containers (e.g., Docker, containerd).
+- Some of the most commonly used container orchestration platforms are
+	1. [Kubernetes](kubernetes.md) - An open-source platform for automating deployment, scaling, and management of containerized applications.
+	2. [Docker Swarm](Docker%20Swarm.md) - A native clustering and orchestration solution for [Docker](../docker/docker.md).
+	3. [Apache Mesos](Apache%20Mesos.md) - A distributed systems kernel that abstracts resources and manages workloads.
+- Some of the key features of container orchestration are listed below.
+	- **Automated Deployment** - Simplifies the process of deploying applications across multiple containers and nodes.
+	- **Scaling** - Allows automatic scaling of the number of containers based on demand to handle varying workloads.
+	- **Load Balancing** - Distributes incoming traffic among containers to ensure even resource utilization and high availability.
+	- **Health Monitoring and Recovery** - Continuously monitors the health of containers and automatically replaces or restarts failed instances.
+	- **Networking** - Manages network configurations, enabling communication between containers and external services.
+	- **Resource Allocation** - Efficiently allocates computing, storage, and network resources to containers.
+	- **Service Discovery** - Facilitates the discovery and communication between containers within a dynamic environment.
 
 ### Why Kubernetes?
 
@@ -67,24 +99,22 @@ Kubernetes has emerged as the de facto standard for container orchestration due 
 	- Kubernetes has become a standard for container orchestration, with major cloud providers offering managed Kubernetes services (Amazon EKS, Google Kubernetes Engine, Azure Kubernetes Service).
 	- Standardization simplifies the deployment and management of containerized applications, fostering a consistent experience across different environments.
 
+## Getting to know Kubernetes
+
+### History and Current State
+
+Kubernetes originated from Google's internal container orchestration system, **Borg**. Google open-sourced the Kubernetes project in 2014, allowing it to quickly gain traction as a leading container orchestration platform. The [Cloud Native Computing Foundation (CNCF)](https://www.cncf.io) took over its governance in 2015, fostering a vibrant and collaborative ecosystem around the project.
+
+Over the years, Kubernetes has evolved to become the de facto standard for container orchestration in the industry. Its robust features for automating deployment, scaling, and management of containerized applications have made it a cornerstone of modern cloud-native infrastructure. The project has seen regular updates and enhancements, with a strong focus on scalability, stability, and extensibility. Kubernetes has also spurred the development of a rich ecosystem of tools and services, contributing to its widespread adoption across various industries.
+
+In the current state, Kubernetes continues to be a dynamic and influential force in the world of container orchestration. Its community-driven development model ensures ongoing innovation, and its compatibility with diverse environments, including on-premises data centers and multiple cloud providers, solidifies its role as a key enabler of scalable and resilient application architectures. As Kubernetes matures, it remains a critical technology for organizations seeking to deploy and manage containerized workloads at scale.
+
+### Alternatives to K8s
+
+1. **Docker Swarm** - Docker's native orchestration tool, Swarm, provides a simple and lightweight way to orchestrate Docker containers without the need for Kubernetes.
+2. **Nomad** - Developed by HashiCorp, Nomad is a standalone orchestrator that supports both containers and virtual machines. It is designed for simplicity and flexibility.
+3. **Mesos/Marathon** - Apache Mesos, combined with the Marathon framework, offers a general-purpose orchestration solution for both containers and traditional workloads.
+4. **Amazon ECS (Elastic Container Service)** - ECS is Amazon's proprietary container orchestration service that manages Docker containers. While AWS offers Amazon EKS with Kubernetes, ECS itself is a separate solution.
+
 ## The Basics of Kubernetes
-
-### Containerization
-**Containerization** is a method of *encapsulating* an application's *code*, *runtime*, *system tools*, *libraries*, and *settings* into a *single package* known as a container. Containers run in *isolated environments* on a *host system*, sharing the host OS kernel, making them *lightweight* and *efficient*. They ensure *portability*, providing a consistent runtime environment across different stages of the software development lifecycle. [Docker](../docker/docker.md) is a widely adopted containerization platform, simplifying the creation, distribution, and execution of containers. Containerization is known for its advantages in terms of efficiency, scalability, and consistency, making it a standard practice in modern software development.
-
-### Comparing BMs, VMs and Containers
-
-![](https://patfolio-assets.s3.ap-south-1.amazonaws.com/BMs-VMs-Containers.png)
-
-|  | Bare Metal (BMs) | Virtual Machines (VMs) | Containers |
-| ---- | ---- | ---- | ---- |
-| **Isolation** | Runs directly on physical hardware without an additional layer. | Runs on a hypervisor, providing isolation from the physical hardware. | Runs on a shared operating system kernel, providing lightweight isolation. |
-| **Resource Overhead** | Minimal, as there is no virtualization layer. | Moderate to high, as VMs include a full OS and hypervisor overhead. | Low, as containers share the host OS kernel and do not require a full OS. |
-| **Resource Efficiency** | Maximum resource utilization but lacks flexibility. | Moderate resource efficiency due to the hypervisor layer. | Highly efficient use of resources, providing rapid scalability. |
-| **Performance** | Generally provides high performance but lacks flexibility in resource allocation. | Slightly reduced compared to bare metal due to virtualization overhead. | Minimal overhead, resulting in near-native performance. |
-| **Deployment Time** | Longer deployment time due to manual setup and configuration. | Faster deployment compared to bare metal, but slower than containers. | Almost instant deployment due to lightweight nature and minimal setup. |
-| **Isolation** | Complete isolation. | Strong isolation between VMs. | Lightweight isolation, sharing the host OS kernel. |
-| **Scalability** | Limited scalability compared to VMs and containers. | Offers good scalability with the ability to run multiple VMs on a single physical host. | Highly scalable, allowing the deployment of numerous containers on a single host. |
-| **Deployment Speed** | Slow deployment. | Faster deployment than bare metal but slower than containers. | Almost instant deployment. |
-| **Use Case** | Suitable for resource-intensive applications that require direct access to hardware. | Ideal for running multiple applications with different OS requirements on a single host. | Best for microservices architectures, CI/CD pipelines, and lightweight, scalable applications. |
 
