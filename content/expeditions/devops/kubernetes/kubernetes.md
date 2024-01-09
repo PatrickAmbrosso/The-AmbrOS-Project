@@ -16,7 +16,7 @@ Kubernetes operates based on a master-node architecture, where the *master node*
 
 ## Getting to know Kubernetes
 
-### History and Current State of Kubernetes
+### History and Current State
 
 Kubernetes originated from Google's internal container orchestration system, **Borg**. Google open-sourced the Kubernetes project in 2014, allowing it to quickly gain traction as a leading container orchestration platform. The [Cloud Native Computing Foundation (CNCF)](https://www.cncf.io) took over its governance in 2015, fostering a vibrant and collaborative ecosystem around the project.
 
@@ -66,3 +66,25 @@ Kubernetes has emerged as the de facto standard for container orchestration due 
 10. **Standardization and Industry Support**
 	- Kubernetes has become a standard for container orchestration, with major cloud providers offering managed Kubernetes services (Amazon EKS, Google Kubernetes Engine, Azure Kubernetes Service).
 	- Standardization simplifies the deployment and management of containerized applications, fostering a consistent experience across different environments.
+
+## The Basics of Kubernetes
+
+### Containerization
+**Containerization** is a method of *encapsulating* an application's *code*, *runtime*, *system tools*, *libraries*, and *settings* into a *single package* known as a container. Containers run in *isolated environments* on a *host system*, sharing the host OS kernel, making them *lightweight* and *efficient*. They ensure *portability*, providing a consistent runtime environment across different stages of the software development lifecycle. [Docker](../docker/docker.md) is a widely adopted containerization platform, simplifying the creation, distribution, and execution of containers. Containerization is known for its advantages in terms of efficiency, scalability, and consistency, making it a standard practice in modern software development.
+
+### Comparing BMs, VMs and Containers
+
+![](https://patfolio-assets.s3.ap-south-1.amazonaws.com/BMs-VMs-Containers.png)
+
+|  | Bare Metal (BMs) | Virtual Machines (VMs) | Containers |
+| ---- | ---- | ---- | ---- |
+| **Isolation** | Runs directly on physical hardware without an additional layer. | Runs on a hypervisor, providing isolation from the physical hardware. | Runs on a shared operating system kernel, providing lightweight isolation. |
+| **Resource Overhead** | Minimal, as there is no virtualization layer. | Moderate to high, as VMs include a full OS and hypervisor overhead. | Low, as containers share the host OS kernel and do not require a full OS. |
+| **Resource Efficiency** | Maximum resource utilization but lacks flexibility. | Moderate resource efficiency due to the hypervisor layer. | Highly efficient use of resources, providing rapid scalability. |
+| **Performance** | Generally provides high performance but lacks flexibility in resource allocation. | Slightly reduced compared to bare metal due to virtualization overhead. | Minimal overhead, resulting in near-native performance. |
+| **Deployment Time** | Longer deployment time due to manual setup and configuration. | Faster deployment compared to bare metal, but slower than containers. | Almost instant deployment due to lightweight nature and minimal setup. |
+| **Isolation** | Complete isolation. | Strong isolation between VMs. | Lightweight isolation, sharing the host OS kernel. |
+| **Scalability** | Limited scalability compared to VMs and containers. | Offers good scalability with the ability to run multiple VMs on a single physical host. | Highly scalable, allowing the deployment of numerous containers on a single host. |
+| **Deployment Speed** | Slow deployment. | Faster deployment than bare metal but slower than containers. | Almost instant deployment. |
+| **Use Case** | Suitable for resource-intensive applications that require direct access to hardware. | Ideal for running multiple applications with different OS requirements on a single host. | Best for microservices architectures, CI/CD pipelines, and lightweight, scalable applications. |
+
