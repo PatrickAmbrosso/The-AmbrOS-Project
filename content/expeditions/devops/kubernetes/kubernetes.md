@@ -118,3 +118,62 @@ In the current state, Kubernetes continues to be a dynamic and influential force
 
 ## The Basics of Kubernetes
 
+### Kubernetes Architecture
+
+In Kubernetes, the architecture is commonly referred to as the **Master-Node Architecture**. Machines in which Kubernetes is running is usually referred to as a *cluster*. In a Kubernetes cluster, the following types of nodes are available.
+1. **Master Node**
+2. **Worker Node**
+
+#### Master Node
+In a Kubernetes cluster, the Master Node plays a pivotal role in *orchestrating* and *managing* the *overall state* of the system. It is responsible for *coordinating the activities* of the cluster and *ensuring* that the *desired state*, as *defined* by users and applications, is maintained. A master node has 4 components.
+1. **API Server**
+	- At the heart of the Master Node is the API Server, serving as the *primary entry point for all communication* within the cluster. This includes CLI or GUI based interfaces, 3rd party kubernetes management tools or even inter-node communications.
+	- This component *exposes the Kubernetes API*, receiving requests and facilitating interactions between various entities. 
+	- It acts as the *central hub for communication*, validating and processing requests.
+	- It *enforces security* measures through *authentication*, *authorization*, and *admission control*.
+2. **Controller Manager**
+	- The Controller Manager is tasked with *overseeing controllers* that *regulate the state of the cluster*.
+	- These controllers ensure that the current state aligns with the desired state, managing aspects like *replication*, *endpoints*, and more.
+	- Manages various controllers that govern different aspects of the cluster's state such as the *Replication Controller* and *ReplicaSet controller*.
+	- This is the entity that ensures that the *current state matches the desired state* defined by users.
+3. **Scheduler**
+	- The Scheduler is responsible for *making decisions regarding pod placement*. 
+	- When a new pod is created, the Scheduler determines the optimal node for deployment based on factors such as *resource requirements*, *affinity*, and *anti-affinity rules*.
+	- The scheduler listens for new pod requirements without assigned nodes and then makes decisions on pod placement, optimizing resource utilization.
+4. **etcd**
+	- Serving as the *distributed key-value store*, etcd is a critical component of the Master Node. It is considered as distributed as in case of more than one master nodes, the etcd is set up as a distributed data store, serving data to other kubernetes master components.
+	- It *stores* the *configuration data* of the entire cluster, acting as the source of truth.
+	- etcd ensures *consistency* and *fault tolerance*, providing *resilience against node failures*.
+
+> [!TIP]+ Kubernetes Control Plane
+> The **Control Plane** is the core system within Kubernetes that is responsible for *maintaining the desired state of the cluster*. It actively *responds to changes* and *makes decisions* to facilitate the *deployment*, *scaling*, and *management of applications* according to user specifications. This authoritative entity acts as a *central interface*, orchestrating various activities within the cluster. Not confined to a single master node, the Control Plane is a *distributed collection of master nodes*, ensuring *redundancy and high availability* while collectively serving the management functionality of the Kubernetes cluster.
+
+#### Worker Node
+
+Worker nodes form the *foundation* of a Kubernetes cluster, *executing* and *managing* the *containers* that make up the applications. They play a crucial role in realizing the desired state set by the Control Plane, and their proper functioning ensures the efficient operation of the entire system. In short, this is where the actual containers and thereby the applications deployed (workload) runs. A worker node has 3 main components.
+1. **Kubelet**
+	- Kubelet acts as the node-level supervisor, ensuring containers are running in a Pod.
+	- It listens for instructions from the Control Plane (via the API Server) to start and stop containers.
+	- It also reports the status of the node such as resource (CPU, memory) utilization, back to the control plane (again, via the API server)
+2. **Container Runtime**
+	- Container runtimes are the entities that execute and manage the actual containers as per the instructions from Kubelet.
+	- It pulls the container images from the container repositories as per the instruction from the kubelet.
+	- It runs container based on the specifications defined in pods.
+	- Any container runtimes that follow the OCI spec can be used as the container runtime. Some of the most popular choices include *[containerd](containerd.md)* and *[Docker](../docker/docker.md)*. 
+3. **Kube proxy**
+	- Kube proxy maintains the network rules on nodes
+	- It serves as the communications channel across the kubernetes cluster facilitating communication between pods across the cluster.
+	- It manages the efficient routing of traffic to the intended pod.
+
+| Consideration Category | Master Nodes Considerations | Worker Nodes Considerations |
+| ---- | ---- | ---- |
+| **High Availability** | Deploy multiple Master Nodes for redundancy and fault tolerance. Generally odd numbers of Master Nodes (e.g., 3 or 5) are recommended to avoid split-brain scenarios. | Deploy multiple worker nodes to distribute the application workload and improve availability. |
+| **API Server Load Balancing** | Implement load balancing for the API Server to distribute requests evenly. It enhances availability by ensuring that requests can be handled by any available Master Node. | Enhances availability by ensuring that requests can be handled by any available Master Node. |
+| **Resource Allocation** | Allocate sufficient resources to Master Nodes based on cluster size and requirements. Adequate resources ensure the smooth functioning of control plane components. | Allocate sufficient resources to worker nodes based on the resource requirements of the running containers. |
+| **Network Connectivity** | Ensure robust network connectivity between Master Nodes. Low-latency, high-bandwidth communication is crucial for effective coordination. | Low-latency, high-bandwidth communication is crucial for effective coordination. |
+| **Backup and Restore Procedures** | Establish backup and restore procedures for etcd. Regular backups mitigate the risk of data loss or corruption, aiding recovery. | Regular backups mitigate the risk of data loss or corruption, aiding recovery. |
+| **Security Measures** | Implement security measures to protect Master Nodes from unauthorized access. Regularly update and patch both the operating system and Kubernetes components to address security vulnerabilities. | Regularly update and patch both the operating system and Kubernetes components to address security vulnerabilities. |
+| **Monitoring and Logging** | Set up monitoring and logging for Master Nodes. Monitor API Server, Controller Manager, Scheduler, and etcd for performance metrics and errors. |  |
+| **Isolation from Workload** | Avoid running application workloads, Kubelet, and Container Runtime on Master Nodes. Isolating Master Nodes enhances security, stability, and resource management. |  |
+
+
