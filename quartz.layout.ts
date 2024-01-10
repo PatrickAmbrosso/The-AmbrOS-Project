@@ -92,12 +92,13 @@ export const defaultContentPageLayout: PageLayout = {
         order: ["filter", "map", "sort"],
       }),
     ),
-    Component.DesktopOnly(
-      Component.RecentNotes({
-        title: "Recent Writings",
-        limit: 5,
-      }),
-    ),
+    // Component.DesktopOnly(
+    //   Component.RecentNotes({
+    //     title: "Recent Writings",
+    //     limit: 5,
+    //   }),
+    // ),
+    Component.DesktopOnly(Component.TableOfContents())
   ],
   right: [
     Component.DesktopOnly(Component.Darkmode()),
