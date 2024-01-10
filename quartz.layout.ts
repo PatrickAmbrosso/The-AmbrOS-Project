@@ -130,7 +130,7 @@ export const defaultContentPageLayout: PageLayout = {
         showTags: false, // whether to show tags in the graph
       },
     }),
-    Component.DesktopOnly(Component.TableOfContents()),
+    // Component.DesktopOnly(Component.TableOfContents()),
     Component.Backlinks(),
   ],
 }
