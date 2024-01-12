@@ -176,3 +176,6 @@ Worker nodes form the *foundation* of a Kubernetes cluster, *executing* and *man
 | **Monitoring and Logging** | Set up monitoring and logging for Master Nodes. Monitor API Server, Controller Manager, Scheduler, and etcd for performance metrics and errors. |  |
 | **Isolation from Workload** | Avoid running application workloads, Kubelet, and Container Runtime on Master Nodes. Isolating Master Nodes enhances security, stability, and resource management. |  |
 
+![](https://patfolio-assets.s3.ap-south-1.amazonaws.com/meme-containerd-and-kubernetes.png)
+
+
