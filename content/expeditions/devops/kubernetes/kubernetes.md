@@ -18,7 +18,7 @@ Kubernetes operates based on a master-node architecture, where the *master node*
 
 ![](https://patfolio-assets.s3.ap-south-1.amazonaws.com/BMs-VMs-Containers.png)
 
-|  | Bare Metal (BMs) | Virtual Machines (VMs) | Containers |
+| Specification | Bare Metal (BMs) | Virtual Machines (VMs) | Containers |
 | ---- | ---- | ---- | ---- |
 | **Isolation** | Runs directly on physical hardware without an additional layer. | Runs on a hypervisor, providing isolation from the physical hardware. | Runs on a shared operating system kernel, providing lightweight isolation. |
 | **Resource Overhead** | Minimal, as there is no virtualization layer. | Moderate to high, as VMs include a full OS and hypervisor overhead. | Low, as containers share the host OS kernel and do not require a full OS. |
@@ -148,6 +148,54 @@ In a Kubernetes cluster, the Master Node plays a pivotal role in *orchestrating*
 > [!TIP]+ Kubernetes Control Plane
 > The **Control Plane** is the core system within Kubernetes that is responsible for *maintaining the desired state of the cluster*. It actively *responds to changes* and *makes decisions* to facilitate the *deployment*, *scaling*, and *management of applications* according to user specifications. This authoritative entity acts as a *central interface*, orchestrating various activities within the cluster. Not confined to a single master node, the Control Plane is a *distributed collection of master nodes*, ensuring *redundancy and high availability* while collectively serving the management functionality of the Kubernetes cluster.
 
+> [!NOTE]- Why was docker support suspended by kubernetes?
+> 
+> ![](https://patfolio-assets.s3.ap-south-1.amazonaws.com/meme-containerd-and-kubernetes.png)
+> 
+> The Kubernetes project has made a strategic decision to deprecate Docker as its default container runtime. This decision holds significant implications for both individual users and organizations relying on Kubernetes for container orchestration.
+> 
+> Initially, Kubernetes exclusively supported Docker as its sole container runtime. However, as the project matured, a growing demand emerged within the community for the ability to support various container runtimes. To address this, Kubernetes shifted its approach towards accommodating Open Containers Initiative (OCI) compatible runtimes, introducing the Container Runtime Interface (CRI) to facilitate interactions between Kubernetes and any container runtime adhering to OCI standards.
+> 
+> To maintain compatibility with Docker, especially given its widespread usage, Kubernetes introduced the concept of `dockershim`. This served as a compatibility layer, allowing Kubernetes to communicate with Docker through the CRI. Over time, however, maintaining support for Docker through `dockershim` proved to be challenging. The approach introduced complexities and was deemed less efficient compared to direct support for OCI-compliant runtimes like containerd.
+> 
+> Underlying this decision is the recognition that Docker itself utilizes `containerd` as its core container runtime, and both Docker and containerd adhere to OCI standards. The decision to deprecate Docker reflects the acknowledgment that supporting Docker through `dockershim` was becoming cumbersome and less sustainable in the long run.
+> 
+> Looking ahead, Kubernetes aims to transition away from Docker as the default container runtime. The focus will shift towards containerd, which is not only Docker's underlying runtime but also a well-established and OCI-compatible container runtime. Users are encouraged to follow migration guidance provided by the Kubernetes community, ensuring a smooth transition from Docker to containerd or other OCI-compatible runtimes.
+> 
+> This move signifies Kubernetes' commitment to staying aligned with industry standards, fostering compatibility within the broader container ecosystem, and maintaining a modular and adaptable architecture. While users will need to adapt their workflows and tooling to accommodate this change, the overall goal is to enhance the robustness, security, and flexibility of Kubernetes as a container orchestration platform.
+
+##### etcd
+- `etcd` serves as a distributed key-value store that is simple, secure and fast. 
+- `etcd` plays the following roles in a kubernetes cluster (in the master node).
+	- **Data Store for Cluster State** - `etcd` serves as the persistent and distributed data store where Kubernetes stores its configuration data, state information, and metadata. This includes details about nodes in the cluster, configurations, and the state of various Kubernetes objects.
+	- **Consistency and Reliability** - It provides strong consistency guarantees, ensuring that all nodes in the Kubernetes cluster have a consistent view of the configuration data. This is crucial for maintaining the integrity and reliability of the entire system.
+	- **Distributed System** - `etcd` is designed to be distributed, meaning that it can run on multiple (master) nodes in a Kubernetes cluster. This distribution ensures fault tolerance and high availability, reducing the risk of a single point of failure.
+	- **Watch Mechanism** - Kubernetes components and controllers can watch specific keys or directories in `etcd` to be notified of changes. This watch mechanism enables real-time updates to the cluster state and facilitates the dynamic nature of Kubernetes.
+- `etcd` uses the *RAFT consensus algorithm* to *achieve distributed consensus* among its nodes. Raft ensures that the data stored in `etcd` remains *consistent* even in the presence of *node failures* or *network partitions*. 
+- `etcd` exposes a simple *HTTP+JSON API*, allowing clients, including Kubernetes components, to interact with it. This API is used for *reading* and *writing* key-value pairs, *watching for changes*, and more.
+
+> [!NOTE]- The RAFT Consensus Algorithm
+> Raft is a consensus algorithm designed to achieve distributed consensus in a network of nodes. It was introduced by Diego Ongaro and John Ousterhout in their seminal paper titled "In Search of an Understandable Consensus Algorithm" in 2014. Raft is widely used in distributed systems to ensure that a group of nodes can agree on a single, consistent state despite the possibility of node failures. One of the design goals of Raft was to be more understandable than other consensus algorithms like Paxos. Its simplicity makes it easier for developers to reason about and implement.
+>
+> Following are the key aspects of the Raft consensus algorithm
+> 
+> - **Leader Roles and Electing a Leader**
+> 	- **Leader Role** - Raft *designates one node* as the *leader* among the group of nodes. The leader is responsible for *coordinating* the *consensus process* and *ensuring* that all *nodes agree* on the *current state*.
+> 	- **Leader Elections** - Nodes in the Raft algorithm *periodically exchange heartbeat messages*. If a node *doesn't receive* a heartbeat within a certain time frame, it assumes that the leader is *either unreachable or has failed*. Nodes then *initiate a leader election process* to select a *new leader*.
+> - **Log Replication and Consistency**
+> 	- **Log Entries** - Raft maintains a log of commands that represent state changes in the system. Each log entry is identified by an index.
+> 	- Consistent Log - The leader accepts client requests, appends them to its log, and replicates the entries to followers. Raft ensures that all logs in the system are consistent, meaning all nodes have the same set of entries in the same order.
+> 	- **Committing Log Entries** - Once an entry in the log is replicated to a majority of nodes, the leader commits the entry and informs other nodes. This ensures that committed entries are durable and will not be lost, even in the event of leader changes or node failures.
+> - Safety and Progress Guarantees
+> 	- **Safety** - Raft guarantees safety properties, ensuring that once a log entry is committed, it will be present in the logs of all future leaders. This prevents inconsistencies in the distributed system.
+> 	- **Progress** - Raft ensures progress by requiring that a leader must be able to contact a majority of nodes in the cluster to make progress. This prevents the system from making progress without consensus.
+
+- High level flow of `etcd` in a Kubernetes cluster
+	- **Cluster Bootstrapping** - When a Kubernetes cluster is initialized or a new node joins the cluster, `etcd` is typically bootstrapped to establish the initial configuration.
+	- **Cluster Configuration Storage** - Kubernetes components, such as the kube-apiserver, kube-controller-manager, kube-scheduler, and others, interact with `etcd` to store and retrieve configuration data. This data includes information about nodes, pods, services, and other objects.
+	- **Ensuring Consensus and HA** - `etcd` ensures consensus among its nodes, providing high availability and fault tolerance. Multiple instances of `etcd` can run on different nodes in the cluster, allowing the system to continue functioning even if some nodes fail.
+	- Real-Time Updates
+
 #### Worker Node
 
 Worker nodes form the *foundation* of a Kubernetes cluster, *executing* and *managing* the *containers* that make up the applications. They play a crucial role in realizing the desired state set by the Control Plane, and their proper functioning ensures the efficient operation of the entire system. In short, this is where the actual containers and thereby the applications deployed (workload) runs. A worker node has 3 main components.
@@ -176,6 +224,6 @@ Worker nodes form the *foundation* of a Kubernetes cluster, *executing* and *man
 | **Monitoring and Logging** | Set up monitoring and logging for Master Nodes. Monitor API Server, Controller Manager, Scheduler, and etcd for performance metrics and errors. |  |
 | **Isolation from Workload** | Avoid running application workloads, Kubelet, and Container Runtime on Master Nodes. Isolating Master Nodes enhances security, stability, and resource management. |  |
 
-![](https://patfolio-assets.s3.ap-south-1.amazonaws.com/meme-containerd-and-kubernetes.png)
+
 
 
